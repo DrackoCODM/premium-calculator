@@ -1,0 +1,1293 @@
+/* CSS Reset & Variables */
+:root {
+  --bg-color: #0B0B0B;
+  --panel-bg: rgba(20, 20, 20, 0.7);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E8E93;
+  --text-muted: #636366;
+  
+  /* Luxury Gold Theme */
+  --gold-primary: #FFB300;
+  --gold-light: #FFE082;
+  --gold-dark: #FF8F00;
+  --gold-gradient: linear-gradient(135deg, #FFE082 0%, #FFB300 50%, #FF8F00 100%);
+  --gold-glow: 0 0 20px rgba(255, 179, 0, 0.25);
+  
+  /* Calculator Buttons Colors */
+  --btn-num-bg: rgba(255, 255, 255, 0.08);
+  --btn-num-hover: rgba(255, 255, 255, 0.12);
+  --btn-func-bg: rgba(255, 255, 255, 0.15);
+  --btn-func-hover: rgba(255, 255, 255, 0.2);
+  --btn-func-text: #FFFFFF;
+  --btn-op-bg: rgba(255, 179, 0, 0.12);
+  --btn-op-border: rgba(255, 179, 0, 0.3);
+  --btn-op-text: #FFB300;
+  --btn-op-hover: rgba(255, 179, 0, 0.2);
+  
+  /* Layout */
+  --border-radius-lg: 32px;
+  --border-radius-md: 20px;
+  --border-radius-sm: 12px;
+  
+  /* Easing */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body {
+  background-color: #050505;
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* -----------------------------------------
+   App Container (Mobile Phone Mockup on Desktop)
+-------------------------------------------- */
+#app-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: var(--bg-color);
+  overflow: hidden;
+  box-shadow: none;
+  border: none;
+  transition: all 0.5s var(--ease-out);
+}
+
+@media (min-width: 450px) {
+  #app-container {
+    width: 375px;
+    height: 90vh;
+    max-height: 780px;
+    min-height: 640px;
+    border-radius: 42px;
+    border: 8px solid #222;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 179, 0, 0.05);
+    position: relative;
+  }
+  
+  /* Add iPhone notch simulation */
+  #app-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 20px;
+    background-color: #222;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    z-index: 1000;
+  }
+}
+
+/* -----------------------------------------
+   Screen Management
+-------------------------------------------- */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+  transition: opacity var(--transition-speed) var(--ease-out), transform var(--transition-speed) var(--ease-out);
+  z-index: 10;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+  z-index: 20;
+}
+
+/* Glassmorphism Panel base */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* -----------------------------------------
+   1. Splash Screen Styling
+-------------------------------------------- */
+#splash-screen {
+  background-color: var(--bg-color);
+  justify-content: center;
+  align-items: center;
+}
+
+.splash-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+#splash-logo {
+  width: 100px;
+  height: 100px;
+  animation: logoIntro 1.2s var(--ease-spring) forwards;
+}
+
+.splash-title {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeUp 1s var(--ease-out) 0.3s forwards;
+}
+
+.title-premium {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title-author {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  text-shadow: var(--gold-glow);
+}
+
+/* -----------------------------------------
+   2. Main Calculator Screen Styling
+-------------------------------------------- */
+#calculator-screen {
+  padding: 32px 20px 24px 20px;
+  justify-content: space-between;
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  opacity: 0.85;
+}
+
+.branding-pill {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  border-radius: 100px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.calculator-display {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 20px 8px;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: auto;
+  max-height: 35%;
+}
+
+.display-history {
+  font-size: 24px;
+  color: var(--text-muted);
+  min-height: 32px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+  letter-spacing: -0.5px;
+}
+
+.display-current {
+  font-size: 64px;
+  font-weight: 300;
+  color: var(--text-primary);
+  text-align: right;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  width: 100%;
+  transition: font-size 0.15s ease;
+}
+
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.key {
+  height: 62px;
+  border-radius: 20px;
+  border: none;
+  font-size: 22px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.15s, transform 0.1s var(--ease-spring), border 0.15s;
+  color: var(--text-primary);
+}
+
+.key:active {
+  transform: scale(0.92);
+}
+
+.key.number {
+  background-color: var(--btn-num-bg);
+  border: var(--btn-num-border, 1px solid rgba(255, 255, 255, 0.02));
+}
+
+.key.number:hover {
+  background-color: var(--btn-num-hover);
+}
+
+.key.function {
+  background-color: var(--btn-func-bg);
+  border: var(--btn-func-border, none);
+  color: var(--btn-func-text);
+  font-weight: 600;
+}
+
+.key.function:hover {
+  background-color: var(--btn-func-hover);
+}
+
+.key.operator {
+  background-color: var(--btn-op-bg);
+  border: var(--btn-op-border, 1px solid rgba(255, 179, 0, 0.3));
+  color: var(--btn-op-text);
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.key.operator:hover {
+  background-color: var(--btn-op-hover);
+}
+
+.key.equals {
+  background: var(--gold-gradient);
+  color: #000000;
+  font-size: 32px;
+  font-weight: 600;
+  box-shadow: var(--gold-glow);
+}
+
+.key.equals:hover {
+  filter: brightness(1.15);
+}
+
+.key.double-width {
+  grid-column: span 2;
+  border-radius: 22px;
+  justify-content: flex-start;
+  padding-left: 30px;
+}
+
+/* -----------------------------------------
+   3. Bottom Sheet Premium Unlock Modal
+-------------------------------------------- */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(18, 18, 18, 0.98) 100%);
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 16px 24px 44px 24px;
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-spring);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.overlay.active .bottom-sheet {
+  transform: translateY(0);
+}
+
+.sheet-drag-handle {
+  width: 36px;
+  height: 5px;
+  background-color: var(--text-muted);
+  border-radius: 10px;
+  margin: 0 auto 28px auto;
+  opacity: 0.6;
+}
+
+.sheet-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lock-icon-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 179, 0, 0.08);
+  border: 1px solid rgba(255, 179, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: var(--gold-glow);
+}
+
+.lock-glow {
+  filter: drop-shadow(0 0 8px rgba(255, 179, 0, 0.4));
+  color: var(--gold-primary);
+  width: 36px;
+  height: 36px;
+}
+
+.sheet-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.sheet-branding {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.sheet-description {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 280px;
+  margin-bottom: 30px;
+}
+
+.price-tier {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-md);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.price-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.price-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold-primary);
+}
+
+/* Reusable buttons */
+.btn {
+  width: 100%;
+  height: 56px;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--gold-gradient);
+  color: #000000;
+  margin-bottom: 12px;
+  box-shadow: var(--gold-glow);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+/* -----------------------------------------
+   4. Payment Screen Styling
+-------------------------------------------- */
+#payment-screen {
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.payment-card {
+  width: 100%;
+  border-radius: var(--border-radius-lg);
+  padding: 36px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-back:active {
+  transform: scale(0.9);
+}
+
+.payment-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.payment-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 32px;
+}
+
+.qr-container {
+  width: 220px;
+  height: 220px;
+  border-radius: var(--border-radius-md);
+  padding: 12px;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 179, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.qr-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Beautiful QR Fallback styling when image fails to load */
+.qr-fallback {
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border-radius: 12px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  position: relative;
+}
+
+.qr-fallback-border {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 2px dashed rgba(255, 179, 0, 0.4);
+  border-radius: 8px;
+}
+
+.qr-fallback-center {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.qr-fallback-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 1px;
+}
+
+.qr-fallback-sub {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.payment-prompt {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.payment-status-container {
+  width: 100%;
+  height: 56px; /* Match button height to avoid layout shifts */
+  position: relative;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.loader-ring {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 179, 0, 0.2);
+  border-top: 2.5px solid var(--gold-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.btn-fade-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  animation: buttonFadeIn 0.5s ease-out forwards;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* -----------------------------------------
+   5. Result Reveal Screen Styling
+-------------------------------------------- */
+#reveal-screen {
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.reveal-phase {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reveal-phase.active {
+  display: flex;
+}
+
+/* Loading Phase */
+.unlock-animation {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 179, 0, 0.08);
+  border: 1px solid rgba(255, 179, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  box-shadow: var(--gold-glow);
+}
+
+.lock-reveal-svg {
+  color: var(--gold-primary);
+}
+
+.lock-shackle {
+  transform-origin: 17px 11px;
+  transition: transform 0.6s var(--ease-spring);
+}
+
+/* Animate shackle open */
+.unlock-animation.unlocked .lock-shackle {
+  transform: rotate(-55deg) translate(-2px, -3px);
+}
+
+.reveal-status-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.reveal-status-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Success Phase Card */
+#reveal-success.reveal-phase {
+  border-radius: var(--border-radius-lg);
+  padding: 40px 24px 36px 24px;
+  text-align: center;
+  animation: cardPopup 0.6s var(--ease-spring) forwards;
+}
+
+.success-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1.5px solid rgba(76, 175, 80, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.reveal-success-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
+}
+
+.reveal-calculation-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-md);
+  padding: 28px 20px;
+  margin-bottom: 36px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reveal-expression {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.reveal-answer {
+  font-size: 48px;
+  font-weight: 700;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(255, 179, 0, 0.15));
+  letter-spacing: -1px;
+}
+
+.reveal-branding {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 28px;
+}
+
+.btn-reset {
+  margin-bottom: 0;
+}
+
+/* -----------------------------------------
+   Animations & Keyframes
+-------------------------------------------- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes logoIntro {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) rotate(-15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardPopup {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Subtle pulse for splash logo */
+.pulse-logo {
+  animation: pulseGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 179, 0, 0.1));
+  }
+  100% {
+    filter: drop-shadow(0 0 25px rgba(255, 179, 0, 0.35));
+  }
+}
+
+/* -----------------------------------------
+   Theme Variables Overrides
+-------------------------------------------- */
+
+/* Luxury Gold Theme (Default) */
+#app-container.theme-gold {
+  --bg-color: #0B0B0B;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E8E93;
+  --gold-primary: #FFB300;
+  --gold-gradient: linear-gradient(135deg, #FFE082 0%, #FFB300 50%, #FF8F00 100%);
+  --gold-glow: 0 0 20px rgba(255, 179, 0, 0.25);
+  
+  --btn-num-bg: rgba(255, 255, 255, 0.08);
+  --btn-num-hover: rgba(255, 255, 255, 0.12);
+  --btn-func-bg: rgba(255, 255, 255, 0.15);
+  --btn-func-hover: rgba(255, 255, 255, 0.2);
+  --btn-op-bg: rgba(255, 179, 0, 0.12);
+  --btn-op-border: 1px solid rgba(255, 179, 0, 0.3);
+  --btn-op-text: #FFB300;
+}
+
+/* Nothing OS Theme */
+#app-container.theme-nothing {
+  --bg-color: #000000;
+  --text-primary: #FFFFFF;
+  --text-secondary: #AAAAAA;
+  --gold-primary: #FF003C; /* Red accent for Nothing OS */
+  --gold-gradient: linear-gradient(135deg, #FF3366 0%, #FF003C 100%);
+  --gold-glow: 0 0 15px rgba(255, 0, 60, 0.25);
+  
+  --btn-num-bg: transparent;
+  --btn-num-hover: rgba(255, 255, 255, 0.05);
+  --btn-num-border: 1px solid #2C2C2E;
+  --btn-func-bg: transparent;
+  --btn-func-hover: rgba(255, 255, 255, 0.08);
+  --btn-func-border: 1px solid #444;
+  --btn-op-bg: transparent;
+  --btn-op-border: 1px solid #FF003C;
+  --btn-op-text: #FF003C;
+}
+
+/* Liquid Glass Theme (iOS 26 style) */
+#app-container.theme-liquid {
+  --bg-color: #040810;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --gold-primary: #AEE8FF;
+  --gold-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(174, 232, 255, 0.65) 50%, rgba(255, 255, 255, 0.3) 100%);
+  --gold-glow: 0 8px 32px rgba(174, 232, 255, 0.25);
+  
+  --btn-num-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --btn-num-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 100%);
+  --btn-num-border: 1px solid rgba(255, 255, 255, 0.22);
+  
+  --btn-func-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 100%);
+  --btn-func-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  --btn-func-border: 1px solid rgba(255, 255, 255, 0.32);
+  
+  --btn-op-bg: linear-gradient(180deg, rgba(174, 232, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --btn-op-border: 1px solid rgba(174, 232, 255, 0.35);
+  --btn-op-text: #AEE8FF;
+}
+
+/* Stripe Indigo Theme */
+#app-container.theme-stripe {
+  --bg-color: #0A0D1A;
+  --text-primary: #FFFFFF;
+  --text-secondary: #7F8EA3;
+  --gold-primary: #00D4B2;
+  --gold-gradient: linear-gradient(135deg, #00D4B2 0%, #635BFF 100%);
+  --gold-glow: 0 0 20px rgba(0, 212, 178, 0.3);
+  
+  --btn-num-bg: rgba(99, 91, 255, 0.08);
+  --btn-num-hover: rgba(99, 91, 255, 0.15);
+  --btn-num-border: 1px solid rgba(99, 91, 255, 0.12);
+  --btn-func-bg: rgba(255, 255, 255, 0.05);
+  --btn-func-hover: rgba(255, 255, 255, 0.1);
+  --btn-func-border: 1px solid rgba(255, 255, 255, 0.08);
+  --btn-op-bg: rgba(0, 212, 178, 0.08);
+  --btn-op-border: 1px solid rgba(0, 212, 178, 0.25);
+  --btn-op-text: #00D4B2;
+}
+
+/* -----------------------------------------
+   Onboarding Screen (Login & Theme Selector)
+-------------------------------------------- */
+#onboarding-screen {
+  padding: 40px 24px 32px 24px;
+  justify-content: center;
+  align-items: center;
+}
+
+.onboard-phase {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 0.6s var(--ease-out) forwards;
+}
+
+.onboard-phase.active {
+  display: flex;
+}
+
+/* Login Phase */
+.logo-wordmark-container {
+  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.onboard-logo {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 10px rgba(255, 179, 0, 0.15));
+}
+
+.onboard-wordmark {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.onboard-author {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold-primary);
+  margin-top: 4px;
+}
+
+.login-box {
+  width: 100%;
+  border-radius: var(--border-radius-md);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.input-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+#user-name-input {
+  width: 100%;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius-sm);
+  color: #FFF;
+  font-size: 16px;
+  text-align: center;
+  padding: 0 16px;
+  transition: all 0.3s;
+  outline: none;
+}
+
+#user-name-input:focus {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 15px rgba(255, 179, 0, 0.08);
+}
+
+/* Theme Selector Phase */
+.welcome-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.5px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-subheading {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.theme-card {
+  border-radius: var(--border-radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s var(--ease-out);
+}
+
+.theme-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.theme-card.active {
+  background: rgba(255, 179, 0, 0.04);
+  border-color: var(--gold-primary);
+  box-shadow: 0 4px 20px rgba(255, 179, 0, 0.05);
+}
+
+/* Active overrides depending on current app theme for a unified look */
+#app-container.theme-nothing .theme-card.active {
+  background: rgba(255, 0, 60, 0.04);
+  border-color: #FF003C;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.05);
+}
+#app-container.theme-liquid .theme-card.active {
+  background: rgba(161, 85, 255, 0.04);
+  border-color: #A155FF;
+  box-shadow: 0 4px 20px rgba(161, 85, 255, 0.05);
+}
+#app-container.theme-stripe .theme-card.active {
+  background: rgba(0, 212, 178, 0.04);
+  border-color: #00D4B2;
+  box-shadow: 0 4px 20px rgba(0, 212, 178, 0.05);
+}
+
+.theme-preview {
+  width: 100%;
+  height: 80px;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.prev-badge {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+}
+
+.prev-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Preview Specific themes styling */
+.theme-gold-prev {
+  background-color: #0B0B0B;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.theme-gold-prev .prev-btn {
+  background: linear-gradient(135deg, #FFE082 0%, #FFB300 100%);
+  color: #000;
+}
+
+.theme-nothing-prev {
+  background-color: #000;
+  border: 1px solid #222;
+}
+.theme-nothing-prev .prev-btn {
+  background: transparent;
+  border: 1.5px solid #FF003C;
+  color: #FF003C;
+}
+
+.theme-liquid-prev {
+  background: radial-gradient(circle, #0e2035 0%, #040810 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+.theme-liquid-prev .prev-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(174, 232, 255, 0.7) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #040810 !important;
+  box-shadow: inset 0 4px 4px rgba(255, 255, 255, 0.4), 0 0 10px rgba(174, 232, 255, 0.4) !important;
+}
+
+.theme-stripe-prev {
+  background-color: #0A0D1A;
+  border: 1px solid rgba(99, 91, 255, 0.2);
+}
+.theme-stripe-prev .prev-btn {
+  background: linear-gradient(135deg, #00D4B2 0%, #635BFF 100%);
+  color: #FFF;
+}
+
+.theme-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.theme-card.active .theme-title {
+  color: #FFF;
+  font-weight: 600;
+}
+
+/* -----------------------------------------
+   iOS 26 Liquid Glass Custom CSS Styling
+-------------------------------------------- */
+
+/* Moving Liquid background blobs */
+#app-container.theme-liquid::before {
+  content: '';
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(174, 232, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  top: -60px;
+  left: -60px;
+  filter: blur(60px);
+  animation: fluidMove1 14s infinite alternate ease-in-out;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#app-container.theme-liquid::after {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(174, 232, 255, 0) 70%);
+  border-radius: 50%;
+  bottom: -60px;
+  right: -60px;
+  filter: blur(70px);
+  animation: fluidMove2 18s infinite alternate ease-in-out;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes fluidMove1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 60px) scale(1.15); }
+  100% { transform: translate(-20px, 90px) scale(0.9); }
+}
+
+@keyframes fluidMove2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-70px, -40px) scale(0.85); }
+  100% { transform: translate(30px, -80px) scale(1.1); }
+}
+
+/* Make screens float above background blobs */
+#app-container.theme-liquid .screen {
+  z-index: 10;
+}
+
+/* Glass panel refractive properties */
+#app-container.theme-liquid .glass-panel,
+#app-container.theme-liquid .bottom-sheet,
+#app-container.theme-liquid .payment-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(50px) saturate(240%) !important;
+  -webkit-backdrop-filter: blur(50px) saturate(240%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: inset 0 24px 24px -12px rgba(255, 255, 255, 0.15),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
+              0 20px 45px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Glass buttons structure override */
+#app-container.theme-liquid .key {
+  box-shadow: inset 0 8px 8px -4px rgba(255, 255, 255, 0.28),
+              inset 0 -3px 4px -1px rgba(0, 0, 0, 0.35),
+              0 4px 10px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 18px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  transition: all 0.15s, transform 0.08s var(--ease-spring);
+}
+
+#app-container.theme-liquid .key:active {
+  transform: scale(0.93) translateY(1px);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.6) !important;
+}
+
+/* Equals Button Specular Highlight */
+#app-container.theme-liquid .key.equals {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(174, 232, 255, 0.65) 50%, rgba(255, 255, 255, 0.3) 100%) !important;
+  color: #040810 !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: inset 0 8px 8px -3px rgba(255, 255, 255, 0.55),
+              inset 0 -4px 6px -2px rgba(0, 0, 0, 0.25),
+              0 8px 24px rgba(174, 232, 255, 0.3) !important;
+  text-shadow: none;
+}
+
+#app-container.theme-liquid .key.equals:active {
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.4), 0 4px 12px rgba(174, 232, 255, 0.15) !important;
+}
+
+/* Onboarding specific items under liquid theme */
+#app-container.theme-liquid #user-name-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+#app-container.theme-liquid #user-name-input:focus {
+  border-color: #AEE8FF;
+  box-shadow: 0 0 15px rgba(174, 232, 255, 0.2);
+}
+
